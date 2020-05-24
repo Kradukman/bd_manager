@@ -14,8 +14,7 @@ class BdBd(models.Model):
 
     name = fields.Char('isbn', required=True, help='ISBN. ISBN10 and ISBN13 will be converted into EAN13')
     title = fields.Char('Title')
-    year = fields.Integer('Year')
-    year_display = fields.Char('Year', compute='_compute_year')
+    year = fields.Char('Year')
     tome = fields.Integer('Tome')
     author_ids = fields.Many2many('bd.author', string='Authors')
     location_id = fields.Many2one('res.partner', string='Where is the comic')
@@ -49,8 +48,3 @@ class BdBd(models.Model):
                             'name': author,})
                     authors.append(author_id.id)
                 self.author_ids = [(6, 0, authors)]
-
-    @api.depends('year')
-    def _compute_year(self):
-        for bd in self:
-            bd.year_display = str(bd.year)

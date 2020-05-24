@@ -21,7 +21,7 @@
                         </group>
                         <group>
                             <field name="publisher_id"/>
-                            <field name="year_display"/>
+                            <field name="year"/>
                             <field name="location_id"/>
                             <field name="status"/>
                         </group>
