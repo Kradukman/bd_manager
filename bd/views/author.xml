@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- FORM VIEW -->
+    <record model="ir.ui.view" id="author_view_form">
+        <field name="name">bd.author_view_form</field>
+        <field name="model">bd.author</field>
+        <field name="arch" type="xml">
+            <form string="Author Form">
+                <sheet>
+                    <group>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                     </group>
+                     <notebook>
+                        <page string="Albums">
+                            <group>
+                                <field name="bd_ids">
+                                    <tree>
+                                        <field name="title"/>
+                                        <field name="serie_id"/>
+                                        <field name="tome"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- TREE VIEW -->
+    <record id="view_author_tree" model="ir.ui.view">
+        <field name="name">bd.author.tree</field>
+        <field name="model">bd.author</field>
+        <field name="arch" type="xml">
+            <tree string="Author">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
+

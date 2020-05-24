@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- FORM VIEW -->
+    <record model="ir.ui.view" id="bd_view_form">
+        <field name="name">bd.bd_view_form</field>
+        <field name="model">bd.bd</field>
+        <field name="arch" type="xml">
+            <form string="Project Form">
+                <sheet>
+                    <group>
+                        <h1>
+                            ISBN: <field name="name"/>
+                        </h1>
+                        </group>
+                    <group>
+                        <group>
+                            <field name="title"/>
+                            <field name="serie_id"/>
+                            <field name="tome"/>
+                            <field name="author_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="publisher_id"/>
+                            <field name="year_display"/>
+                            <field name="location_id"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- TREE VIEW -->
+    <record id="view_bd_tree" model="ir.ui.view">
+        <field name="name">bd.bd.tree</field>
+        <field name="model">bd.bd</field>
+        <field name="arch" type="xml">
+            <tree string="bd">
+                <field name="title"/>
+                <field name="serie_id"/>
+                <field name="tome"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_bd_search" model="ir.ui.view">
+        <field name="name">bd.bd.search.view</field>
+        <field name="model">bd.bd</field>
+        <field name="arch" type="xml">
+            <search string="BD Information">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="serie_id"/>
+                <field name="author_ids"/>
+                <filter string="ISBN" name="name" context="{'group_by': 'name'}"/>
+                <filter string="Titre" name="title" context="{'group_by': 'title'}"/>
+                <filter string="Série" name="serie_id" context="{'group_by': 'serie_id'}"/>
+            </search>
+        </field>
+    </record>
+</odoo>
+

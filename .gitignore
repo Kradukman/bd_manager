@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.project
+.ropeproject
+.pydevproject
+.settings
+*.zip
+.vscode/
+*.pyc
+*.pycache

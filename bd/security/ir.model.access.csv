@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bd_user,access_bd,model_bd_bd,base.group_user,1,0,0,0
+access_author_user,access_author,model_bd_author,base.group_user,1,0,0,0
+access_publisher_user,access_publisher,model_bd_publisher,base.group_user,1,0,0,0
+access_serie_user,access_serie,model_bd_serie,base.group_user,1,0,0,0
+
+access_bd,access_bd,model_bd_bd,base.group_erp_manager,1,1,1,1
+access_author,access_author,model_bd_author,base.group_erp_manager,1,1,1,1
+access_publisher,access_publisher,model_bd_publisher,base.group_erp_manager,1,1,1,1
+access_serie,access_serie,model_bd_serie,base.group_erp_manager,1,1,1,1

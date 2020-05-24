@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- FORM VIEW -->
+    <record model="ir.ui.view" id="publisher_view_form">
+        <field name="name">bd.publisher_view_form</field>
+        <field name="model">bd.publisher</field>
+        <field name="arch" type="xml">
+            <form string="Publisher Form">
+                <sheet>
+                    <group>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                     </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- TREE VIEW -->
+    <record id="view_publisher_tree" model="ir.ui.view">
+        <field name="name">bd.publisher.tree</field>
+        <field name="model">bd.publisher</field>
+        <field name="arch" type="xml">
+            <tree string="publisher">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
+

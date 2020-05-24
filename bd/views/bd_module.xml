@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+     <record model="ir.actions.act_window" id="bd_list_action">
+          <field name="name">BD</field>
+          <field name="res_model">bd.bd</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+               <p class="o_view_nocontent_smiling_face">Create BD
+               </p>
+          </field>
+     </record>
+     <record model="ir.actions.act_window" id="author_list_action">
+          <field name="name">Author</field>
+          <field name="res_model">bd.author</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+               <p class="o_view_nocontent_smiling_face">Create Author
+               </p>
+          </field>
+     </record>
+     <record model="ir.actions.act_window" id="publisher_list_action">
+          <field name="name">Publisher</field>
+          <field name="res_model">bd.publisher</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+               <p class="o_view_nocontent_smiling_face">Create Publisher
+               </p>
+          </field>
+     </record>
+     <record model="ir.actions.act_window" id="serie_list_action">
+          <field name="name">Serie</field>
+          <field name="res_model">bd.serie</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+               <p class="o_view_nocontent_smiling_face">Create Serie
+               </p>
+          </field>
+     </record>
+
+     <!-- top level menu: no parent -->
+     <menuitem id="main_bd_menu" name="BD" groups="base.group_erp_manager"/>
+     <!-- A first level in the left side menu is needed
+          before using action= attribute -->
+     <menuitem id="bd_menu" name="BD"
+               parent="main_bd_menu"/>
+     <!-- the following menuitem should appear *after*
+          its parent openacademy_menu and *after* its
+          action course_list_action -->
+     <menuitem id="bd_bd_menu" name="BD" parent="bd_menu"
+               action="bd_list_action"/>
+     <menuitem id="bd_author_menu" name="Author" parent="bd_menu"
+               action="author_list_action"/>
+     <menuitem id="bd_publisher_menu" name="Publisher" parent="bd_menu"
+               action="publisher_list_action"/>
+     <menuitem id="bd_serie_menu" name="Serie" parent="bd_menu"
+               action="serie_list_action"/>
+     <!-- Full id location:
+          action="openacademy.course_list_action"
+          It is not required when it is the same module -->
+
+</odoo>
