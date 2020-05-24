@@ -26,7 +26,6 @@ class BdBd(models.Model):
     @api.onchange('name')
     def _onchange_name(self):
         if self.name:
-            # 9782359109696  
             service = 'bnf'
             set_cache(None)
             isbn = canonical(self.name)
