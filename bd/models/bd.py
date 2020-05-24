@@ -6,24 +6,13 @@ import json
 from isbnlib import meta, canonical
 from isbnlib.registry import bibformatters, set_cache
 from isbnlib_bnf._bnf import query
-# SERVICE_URL                                                                                                                                         
-# 'http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.isbn%20all%20%22{isbn}%22&maximumRecords=1&recordSchema=dublincore'
-# 'http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.isbn%20all%20%22978-2-8001-6551-6%22&recordSchema=dublincore&maximumRecords=20&startRecord=1
-# 'http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.isbn%20all%20%229782800121338%22&maximumRecords=1&recordSchema=dublincore'
-# 'http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.isbn%20all%20%222-8001-2133-5%22&recordSchema=dublincore&maximumRecords=20&startRecord=1
-# i
-
-# data = wquery('http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.isbn%20all%20%222-8001-2133-5%22&recordSchema=dublinco
-# re&maximumRecords=20&startRecord=1', user_agent=UA, parser=parser_bnf) 
-# 'http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.isbn%20all%20%229782800121338%22&maximumRecords=1&recordSchema=dublincore
-# ipdb>
 
 class BdBd(models.Model):
     _name = 'bd.bd'
     _description = 'Model for comic book'
     _order = 'tome'
 
-    name = fields.Char('isbn', required=True, help='Canonical isb, no - allowed, only numbers')
+    name = fields.Char('isbn', required=True, help='ISBN. ISBN10 and ISBN13 will be converted into EAN13')
     title = fields.Char('Title')
     year = fields.Integer('Year')
     year_display = fields.Char('Year', compute='_compute_year')
