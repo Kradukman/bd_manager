@@ -39,7 +39,7 @@
      </record>
 
      <!-- top level menu: no parent -->
-     <menuitem id="main_bd_menu" name="BD"/>
+     <menuitem id="main_bd_menu" name="BD" groups="base.group_user"/>
      <!-- A first level in the left side menu is needed
           before using action= attribute -->
      <menuitem id="bd_menu" name="BD"
