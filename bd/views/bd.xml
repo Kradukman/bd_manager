@@ -38,6 +38,7 @@
                         <page name="other_info" string="Other info">
                             <group>
                                 <field name="cover" widget="image"/>
+                                <field name="url" widget="url"/>
                             </group>
                         </page>
                         <page name="alias" string="Alias">

@@ -30,6 +30,7 @@ class BdBd(models.Model):
         selection=[('bnf', 'BNF'), ('goob', 'Google Book'), ('openl', 'Open Library')], 
         default='bnf', 
         required=True)
+    url = fields.Char('Url')
 
     @api.onchange('name', 'service')
     def _onchange_name(self):
