@@ -8,24 +8,45 @@
             <form string="Project Form">
                 <sheet>
                     <group>
+                        <group>
+                        
                         <h1>
                             ISBN: <field name="name"/>
                         </h1>
-                        </group>
-                    <group>
-                        <group>
-                            <field name="title"/>
-                            <field name="serie_id"/>
-                            <field name="tome"/>
-                            <field name="author_ids" widget="many2many_tags"/>
-                        </group>
-                        <group>
-                            <field name="publisher_id"/>
-                            <field name="year"/>
-                            <field name="location_id"/>
-                            <field name="status"/>
+                        <field name="service"/>
                         </group>
                     </group>
+                    <hr />
+                    <group>
+                        <h1>Title: <field name="title"/></h1>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="serie_id"/>
+                            <field name="tome"/>
+                            <field name="status"/>
+                            <field name="year"/>
+                            
+                        </group>
+                        <group>
+                            <field name="author_ids" widget="many2many_tags"/>
+                            <field name="publisher_id"/>
+                            <field name="location_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="other_info" string="Other info">
+                            <group>
+                                <field name="cover" widget="image"/>
+                            </group>
+                        </page>
+                        <page name="alias" string="Alias">
+                            <group>
+                                <field name="author_alias_ids" widget="many2many_tags"/>
+                                <field name="publisher_alias_id"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

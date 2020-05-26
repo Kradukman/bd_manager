@@ -16,35 +16,47 @@ class BdBd(models.Model):
     title = fields.Char('Title')
     year = fields.Char('Year')
     tome = fields.Integer('Tome')
-    author_ids = fields.Many2many('bd.author', string='Authors')
+    author_ids = fields.Many2many('bd.author', string='Authors', readonly=True)
+    author_alias_ids = fields.Many2many('bd.author.alias', string='Authors alias')
     location_id = fields.Many2one('res.partner', string='Where is the comic')
-    publisher_id = fields.Many2one('bd.publisher', string='Publisher')
+    publisher_id = fields.Many2one('bd.publisher', string='Publisher', related='publisher_alias_id.publisher_id', readonly=True)
+    publisher_alias_id = fields.Many2one('bd.publisher.alias', string='Publisher alias')
     serie_id = fields.Many2one('bd.serie', string='Serie')
     status = fields.Selection(string='Status', related='serie_id.status')
+    cover = fields.Binary('cover', store=True)
+    comment = fields.Char('Comment')
+    service = fields.Selection(
+        string='Service', 
+        selection=[('bnf', 'BNF'), ('goob', 'Google Book'), ('openl', 'Open Library')], 
+        default='bnf', 
+        required=True)
 
-    @api.onchange('name')
+    @api.onchange('name', 'service')
     def _onchange_name(self):
         if self.name:
-            service = 'bnf'
             set_cache(None)
             isbn = canonical(self.name)
-            bookdata = meta(isbn, service)
+            bookdata = meta(isbn, self.service)
             if bookdata:
-                authors = []
-                if self.author_ids:
-                    authors = self.author_ids.ids
+                authors_alias = []
                 self.title = bookdata['Title']
                 self.year = bookdata['Year']
-                publisher_id = self.env['bd.publisher'].search([('name', '=',  bookdata['Publisher'])], limit=1)
-                if not publisher_id:
-                    publisher_id = self.env['bd.publisher'].create({
+                publisher_alias_id = self.env['bd.publisher.alias'].search([('name', '=',  bookdata['Publisher'])], limit=1)
+                if not publisher_alias_id:
+                    publisher_alias_id = self.env['bd.publisher'].create({
                         'name': bookdata['Publisher'],
                     })
-                self.publisher_id = publisher_id
-                for author in bookdata['Authors']:
-                    author_id = self.env['bd.author'].search([('name', '=', author)], limit=1)
-                    if not author_id:
-                        author_id = self.env['bd.author'].create({
-                            'name': author,})
-                    authors.append(author_id.id)
-                self.author_ids = [(6, 0, authors)]
+                self.publisher_alias_id = publisher_alias_id
+                for author_alias in bookdata['Authors']:
+                    author_alias_id = self.env['bd.author.alias'].search([('name', '=', author_alias)], limit=1)
+                    if not author_alias_id:
+                        author_alias_id = self.env['bd.author.alias'].create({
+                            'name': author_alias,})
+                    authors_alias.append(author_alias_id.id)
+                if authors_alias:
+                    self.author_alias_ids = [(6, 0, authors_alias)]
+
+    @api.onchange('author_alias_ids')
+    def _onchange_author_alias_ids(self):
+        for bd in self:
+            bd.author_ids = [(6, 0, (alias_id.author_id.id for alias_id in bd.author_alias_ids))]
