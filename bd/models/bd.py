@@ -44,7 +44,7 @@ class BdBd(models.Model):
                 self.year = bookdata['Year']
                 publisher_alias_id = self.env['bd.publisher.alias'].search([('name', '=',  bookdata['Publisher'])], limit=1)
                 if not publisher_alias_id:
-                    publisher_alias_id = self.env['bd.publisher'].create({
+                    publisher_alias_id = self.env['bd.publisher.alias'].create({
                         'name': bookdata['Publisher'],
                     })
                 self.publisher_alias_id = publisher_alias_id
