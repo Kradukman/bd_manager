@@ -40,24 +40,30 @@ class BdBd(models.Model):
             bookdata = meta(isbn, self.service)
             if bookdata:
                 authors_alias = []
-                self.title = bookdata['Title']
-                self.year = bookdata['Year']
-                publisher_alias_id = self.env['bd.publisher.alias'].search([('name', '=',  bookdata['Publisher'])], limit=1)
-                if not publisher_alias_id:
-                    publisher_alias_id = self.env['bd.publisher.alias'].create({
-                        'name': bookdata['Publisher'],
-                    })
-                self.publisher_alias_id = publisher_alias_id
-                for author_alias in bookdata['Authors']:
-                    author_alias_id = self.env['bd.author.alias'].search([('name', '=', author_alias)], limit=1)
-                    if not author_alias_id:
-                        author_alias_id = self.env['bd.author.alias'].create({
-                            'name': author_alias,})
-                    authors_alias.append(author_alias_id.id)
-                if authors_alias:
-                    self.author_alias_ids = [(6, 0, authors_alias)]
+                if bookdata['Title']:
+                    self.title = bookdata['Title']
+                if bookdata['Year']:
+                    self.year = bookdata['Year']
+                if bookdata['Publisher']:
+                    publisher_alias_id = self.env['bd.publisher.alias'].search([('name', '=',  bookdata['Publisher'])], limit=1)
+                    if not publisher_alias_id:
+                        publisher_alias_id = self.env['bd.publisher.alias'].create({
+                            'name': bookdata['Publisher'],
+                        })
+                    self.publisher_alias_id = publisher_alias_id
+                if bookdata['Authors']:
+                    for author_alias in bookdata['Authors']:
+                        author_alias_id = self.env['bd.author.alias'].search([('name', '=', author_alias)], limit=1)
+                        if not author_alias_id:
+                            author_alias_id = self.env['bd.author.alias'].create({
+                                'name': author_alias,})
+                        authors_alias.append(author_alias_id.id)
+                    if authors_alias:
+                        self.author_alias_ids = [(6, 0, authors_alias)]
+                        self._onchange_author_alias_ids()
 
-    @api.onchange('author_alias_ids')
+    @api.depends('author_alias_ids')
     def _onchange_author_alias_ids(self):
         for bd in self:
-            bd.author_ids = [(6, 0, (alias_id.author_id.id for alias_id in bd.author_alias_ids))]
+            if bd.author_alias_ids:
+                bd.author_ids = [(6, 0, (alias_id.author_id.id for alias_id in bd.author_alias_ids if alias_id.author_id))]

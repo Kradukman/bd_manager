@@ -37,6 +37,15 @@
                </p>
           </field>
      </record>
+     <record model="ir.actions.act_window" id="publisher_alias_list_action">
+          <field name="name">Publisher Alias</field>
+          <field name="res_model">bd.publisher.alias</field>
+          <field name="view_mode">tree,form</field>
+          <field name="help" type="html">
+               <p class="o_view_nocontent_smiling_face">Create Publisher Alias
+               </p>
+          </field>
+     </record>
      <record model="ir.actions.act_window" id="serie_list_action">
           <field name="name">Serie</field>
           <field name="res_model">bd.serie</field>
@@ -51,21 +60,30 @@
      <menuitem id="main_bd_menu" name="BD" groups="base.group_user"/>
      <!-- A first level in the left side menu is needed
           before using action= attribute -->
-     <menuitem id="bd_menu" name="BD"
-               parent="main_bd_menu"/>
-     <!-- the following menuitem should appear *after*
-          its parent openacademy_menu and *after* its
-          action course_list_action -->
+     <menuitem id="bd_menu" name="BD" parent="main_bd_menu"/>
+
      <menuitem id="bd_bd_menu" name="BD" parent="bd_menu"
                action="bd_list_action"/>
      <menuitem id="bd_author_menu" name="Author" parent="bd_menu"
                action="author_list_action"/>
-     <menuitem id="bd_author_alias_menu" name="Author Alias" parent="bd_menu"
-               action="author_alias_list_action"/>
+     
      <menuitem id="bd_publisher_menu" name="Publisher" parent="bd_menu"
                action="publisher_list_action"/>
+     
      <menuitem id="bd_serie_menu" name="Serie" parent="bd_menu"
                action="serie_list_action"/>
+
+     <!-- ALIASES -->
+     <menuitem id="bd_alias_menu" name="Alias" parent="main_bd_menu"/>
+
+     <menuitem id="bd_author_alias_menu" name="Author" parent="bd_alias_menu"
+               action="author_alias_list_action"/>
+     <menuitem id="bd_publisher_alias_menu" name="Publisher" parent="bd_alias_menu"
+               action="publisher_alias_list_action"/>
+     <!-- the following menuitem should appear *after*
+          its parent openacademy_menu and *after* its
+          action course_list_action -->
+     
      <!-- Full id location:
           action="openacademy.course_list_action"
           It is not required when it is the same module -->
