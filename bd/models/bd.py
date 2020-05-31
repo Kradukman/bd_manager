@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
+from odoo.exceptions import Warning
 import requests as req
 import json
 from isbnlib import meta, canonical
 from isbnlib.registry import bibformatters, set_cache
 from isbnlib_bnf._bnf import query
+from isbnlib.dev._exceptions import NoDataForSelectorError
 
 class BdBd(models.Model):
     _name = 'bd.bd'
@@ -38,13 +40,14 @@ class BdBd(models.Model):
             set_cache(None)
             isbn = canonical(self.name)
             bookdata = meta(isbn, self.service)
+
             if bookdata:
                 authors_alias = []
                 if bookdata['Title']:
                     self.title = bookdata['Title']
                 if bookdata['Year']:
                     self.year = bookdata['Year']
-                if bookdata['Publisher']:
+                if bookdata['Publisher'] and bookdata['Publisher'] != '':
                     publisher_alias_id = self.env['bd.publisher.alias'].search([('name', '=',  bookdata['Publisher'])], limit=1)
                     if not publisher_alias_id:
                         publisher_alias_id = self.env['bd.publisher.alias'].create({
@@ -53,11 +56,12 @@ class BdBd(models.Model):
                     self.publisher_alias_id = publisher_alias_id
                 if bookdata['Authors']:
                     for author_alias in bookdata['Authors']:
-                        author_alias_id = self.env['bd.author.alias'].search([('name', '=', author_alias)], limit=1)
-                        if not author_alias_id:
-                            author_alias_id = self.env['bd.author.alias'].create({
-                                'name': author_alias,})
-                        authors_alias.append(author_alias_id.id)
+                        if author_alias != '':
+                            author_alias_id = self.env['bd.author.alias'].search([('name', '=', author_alias)], limit=1)
+                            if not author_alias_id:
+                                author_alias_id = self.env['bd.author.alias'].create({
+                                    'name': author_alias,})
+                            authors_alias.append(author_alias_id.id)
                     if authors_alias:
                         self.author_alias_ids = [(6, 0, authors_alias)]
                         self._onchange_author_alias_ids()
